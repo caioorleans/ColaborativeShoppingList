@@ -1,6 +1,7 @@
 package com.github.caioorleans.familytodo.dto;
 
 import com.github.caioorleans.familytodo.validation.decorator.PasswordMatches;
+import com.github.caioorleans.familytodo.validation.decorator.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -25,7 +26,7 @@ public class UserCreateDTO {
     private String email;
 
     @NotBlank(message = "A senha é obrigatória")
-    @Size(min = 8, max = 16, message = "A senha deve ter entre 8 e 16 caracteres")
+    @ValidPassword
     private String password;
 
     @NotBlank(message = "A confirmação de senha é obrigatória")

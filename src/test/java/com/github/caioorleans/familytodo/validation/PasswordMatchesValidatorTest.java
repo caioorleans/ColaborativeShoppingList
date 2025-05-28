@@ -1,13 +1,10 @@
 package com.github.caioorleans.familytodo.validation;
 
 import com.github.caioorleans.familytodo.dto.UserCreateDTO;
-import com.github.caioorleans.familytodo.validation.decorator.PasswordMatches;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
