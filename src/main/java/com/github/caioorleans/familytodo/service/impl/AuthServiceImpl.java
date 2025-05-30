@@ -30,6 +30,16 @@ public class AuthServiceImpl implements AuthService {
     public TokensDTO login(LoginDTO loginDTO) {
         var user = userService.findUserByEmail(loginDTO.getEmail());
         passwordMatches(loginDTO, user);
+        return getTokensDTO(user);
+    }
+
+    @Override
+    public TokensDTO createUsersAndAuthenticate(User user) {
+        var createdUser = userService.createUser(user);
+        return getTokensDTO(createdUser);
+    }
+
+    private TokensDTO getTokensDTO(User user) {
         return new TokensDTO(
                 jwtService.generateAccessToken(user),
                 jwtService.generateRefreshToken(user)

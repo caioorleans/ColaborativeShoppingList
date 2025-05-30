@@ -14,26 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final JwtService jwtService;
     private final UserMapper userMapper;
 
     public UserController(
             UserService userService,
-            JwtService jwtService,
             UserMapper userMapper
     ) {
         this.userService = userService;
-        this.jwtService = jwtService;
         this.userMapper = userMapper;
-    }
-
-    @PostMapping
-    public TokensDTO addUser(@RequestBody @Valid UserCreateDTO userDTO) {
-        var user = userService.createUser(userMapper.toEntity(userDTO));
-        return new TokensDTO(
-                jwtService.generateAccessToken(user),
-                jwtService.generateRefreshToken(user)
-        );
     }
 
     @GetMapping
