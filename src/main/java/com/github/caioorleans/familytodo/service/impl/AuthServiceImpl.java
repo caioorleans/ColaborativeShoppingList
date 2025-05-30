@@ -2,6 +2,7 @@ package com.github.caioorleans.familytodo.service.impl;
 
 import com.github.caioorleans.familytodo.dto.LoginDTO;
 import com.github.caioorleans.familytodo.dto.TokensDTO;
+import com.github.caioorleans.familytodo.exception.UnauthorizedException;
 import com.github.caioorleans.familytodo.model.User;
 import com.github.caioorleans.familytodo.service.AuthService;
 import com.github.caioorleans.familytodo.service.JwtService;
@@ -37,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
 
     private void passwordMatches(LoginDTO loginDTO, User user) {
         if(!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())){
-            throw new RuntimeException("Wrong password");
+            throw new UnauthorizedException("Wrong password");
         }
     }
 }

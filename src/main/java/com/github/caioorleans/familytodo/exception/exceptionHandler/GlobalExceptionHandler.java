@@ -1,5 +1,9 @@
 package com.github.caioorleans.familytodo.exception.exceptionHandler;
 
+import com.github.caioorleans.familytodo.exception.EmailAlreadyInUseException;
+import com.github.caioorleans.familytodo.exception.NotFoundException;
+import com.github.caioorleans.familytodo.exception.UnauthorizedException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -32,5 +36,26 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler({
+            NotFoundException.class,
+            UnauthorizedException.class,
+            EmailAlreadyInUseException.class
+    })
+    public ResponseEntity<Map<String, Object>> handleCustomExceptions(RuntimeException ex) {
+        HttpStatus status = switch (ex) {
+            case NotFoundException notFoundException -> HttpStatus.NOT_FOUND;
+            case UnauthorizedException unauthorizedException -> HttpStatus.UNAUTHORIZED;
+            case EmailAlreadyInUseException emailAlreadyInUseException -> HttpStatus.CONFLICT;
+            default -> throw new IllegalStateException("Unexpected value: " + ex);
+        };
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", status.value());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, status);
+    }
+
 }
 

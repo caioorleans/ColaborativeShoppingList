@@ -1,5 +1,7 @@
 package com.github.caioorleans.familytodo.service.impl;
 
+import com.github.caioorleans.familytodo.exception.EmailAlreadyInUseException;
+import com.github.caioorleans.familytodo.exception.NotFoundException;
 import com.github.caioorleans.familytodo.model.User;
 import com.github.caioorleans.familytodo.repository.UserRepository;
 import com.github.caioorleans.familytodo.service.UserService;
@@ -20,7 +22,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user) {
         if(userRepository.existsByEmail(user.getEmail())){
-            throw new IllegalArgumentException("Email already in use");
+            throw new EmailAlreadyInUseException("Email already in use");
         }
         encodePassword(user);
         try {
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalArgumentException("Email not found")
+                () -> new NotFoundException("User not found")
         );
     }
 
