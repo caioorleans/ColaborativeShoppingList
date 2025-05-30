@@ -30,6 +30,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new IllegalArgumentException("Email not found")
+        );
+    }
+
     private void encodePassword(User user) {
         var encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);

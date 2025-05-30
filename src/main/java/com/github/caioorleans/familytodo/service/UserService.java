@@ -4,5 +4,6 @@ import com.github.caioorleans.familytodo.model.User;
 
 public interface UserService {
 
-    public User createUser(User user);
+    User createUser(User user);
+    User findUserByEmail(String email);
 }
