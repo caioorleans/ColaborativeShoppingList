@@ -1,0 +1,93 @@
+package com.github.caioorleans.familytodo.service.impl;
+
+import com.github.caioorleans.familytodo.model.User;
+import com.github.caioorleans.familytodo.repository.UserRepository;
+import com.github.caioorleans.familytodo.service.JwtService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Component
+public class JwtServiceImpl implements JwtService, UserDetailsService {
+
+    private static final String ACCESS_TOKEN_SECRET_KEY = "minha-chave-acesso-secreta-com-32-bytes!!!";
+    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 3600L;
+
+    private static final String REFRESH_TOKEN_SECRET_KEY = "minha-chave-refresh-secreta-com-32-bytes!!!";
+    private static final long REFRESH_TOKEN_EXPIRATION_TIME = 3600L;
+
+    private final UserRepository userRepository;
+
+    public JwtServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public String generateAccessToken(User user) {
+        return generateToken(user.getEmail(), ACCESS_TOKEN_SECRET_KEY, ACCESS_TOKEN_EXPIRATION_TIME);
+    }
+
+    @Override
+    public String generateRefreshToken(User user) {
+        return generateToken(user.getEmail(), REFRESH_TOKEN_SECRET_KEY, REFRESH_TOKEN_EXPIRATION_TIME);
+    }
+
+    @Override
+    public String getEmailFromToken(String token) {
+        return extractClaims(token, ACCESS_TOKEN_SECRET_KEY).getSubject();
+    }
+
+    @Override
+    public boolean isAccessTokenValid(String token) {
+        return isTokenValid(token, ACCESS_TOKEN_SECRET_KEY);
+    }
+
+    @Override
+    public boolean isRefreshTokenValid(String token) {
+        return isTokenValid(token, REFRESH_TOKEN_SECRET_KEY);
+    }
+
+    private boolean isTokenValid(String token, String key) {
+        try {
+            Claims claims = extractClaims(token, key);
+            return new Date().before(claims.getExpiration());
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    private Claims extractClaims(String token, String key) {
+        var secretKey = Keys.hmacShaKeyFor(key.getBytes());
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    private String generateToken(String email, String key, long expirationTimeInSeconds) {
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + expirationTimeInSeconds * 1000);
+
+        var secretKey = Keys.hmacShaKeyFor(key.getBytes());
+
+        return Jwts.builder()
+                .subject(email)
+                .issuedAt(now)
+                .expiration(expiration)
+                .signWith(secretKey, Jwts.SIG.HS256)
+                .compact();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+}
