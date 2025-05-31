@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "shopping_lists") // Recomendado para evitar nomes reservados e manter padrão
+@Table(name = "shopping_lists")
 public class ShoppingList {
 
     @Id

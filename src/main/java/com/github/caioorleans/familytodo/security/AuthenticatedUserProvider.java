@@ -3,7 +3,6 @@ package com.github.caioorleans.familytodo.security;
 import com.github.caioorleans.familytodo.exception.NotFoundException;
 import com.github.caioorleans.familytodo.exception.UnauthorizedException;
 import com.github.caioorleans.familytodo.model.User;
-import com.github.caioorleans.familytodo.repository.UserRepository;
 import com.github.caioorleans.familytodo.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

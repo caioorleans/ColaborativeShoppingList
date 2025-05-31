@@ -5,16 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Setter
-public class ShoppingListDTO {
+public class ShoppingListPartialDTO {
 
     private String id;
     private String name;
     private UserDTO owner;
     private Date creationDate;
-    private List<UserDTO> members;
 }

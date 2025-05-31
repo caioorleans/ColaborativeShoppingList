@@ -1,14 +1,13 @@
 package com.github.caioorleans.familytodo.mapper.impl;
 
+import com.github.caioorleans.familytodo.dto.ShoppingListCompleteDTO;
 import com.github.caioorleans.familytodo.dto.ShoppingListCreateDTO;
-import com.github.caioorleans.familytodo.dto.ShoppingListDTO;
+import com.github.caioorleans.familytodo.dto.ShoppingListPartialDTO;
 import com.github.caioorleans.familytodo.mapper.ShoppingListMapper;
 import com.github.caioorleans.familytodo.model.ShoppingList;
 import com.github.caioorleans.familytodo.security.AuthenticatedUserProvider;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
@@ -36,7 +35,12 @@ public class ShoppingListMapperModelMapper implements ShoppingListMapper {
     }
 
     @Override
-    public ShoppingListDTO toDTO(ShoppingList shoppingList) {
-        return modelMapper.map(shoppingList, ShoppingListDTO.class);
+    public ShoppingListPartialDTO toPartialDTO(ShoppingList shoppingList) {
+        return modelMapper.map(shoppingList, ShoppingListPartialDTO.class);
+    }
+
+    @Override
+    public ShoppingListCompleteDTO toCompleteDTO(ShoppingList shoppingList) {
+        return modelMapper.map(shoppingList, ShoppingListCompleteDTO.class);
     }
 }

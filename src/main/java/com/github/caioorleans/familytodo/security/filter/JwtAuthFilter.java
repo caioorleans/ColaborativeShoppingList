@@ -1,7 +1,6 @@
 package com.github.caioorleans.familytodo.security.filter;
 
 import com.github.caioorleans.familytodo.service.JwtService;
-import com.github.caioorleans.familytodo.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
