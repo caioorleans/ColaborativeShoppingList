@@ -1,6 +1,6 @@
 package com.github.caioorleans.familytodo.config;
 
-import com.github.caioorleans.familytodo.filter.JwtAuthFilter;
+import com.github.caioorleans.familytodo.security.filter.JwtAuthFilter;
 import com.github.caioorleans.familytodo.service.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,12 +41,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "api/users").permitAll()
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "swagger-ui/**",
                                 "swagger-ui.html",
-                                "api/auth"
+                                "api/auth",
+                                "api/auth/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

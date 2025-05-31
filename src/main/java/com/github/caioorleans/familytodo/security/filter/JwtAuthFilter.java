@@ -1,4 +1,4 @@
-package com.github.caioorleans.familytodo.filter;
+package com.github.caioorleans.familytodo.security.filter;
 
 import com.github.caioorleans.familytodo.service.JwtService;
 import com.github.caioorleans.familytodo.service.UserService;

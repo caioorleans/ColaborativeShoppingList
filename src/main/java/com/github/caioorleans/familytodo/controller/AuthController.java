@@ -28,7 +28,7 @@ public class AuthController {
         return authService.login(loginDto);
     }
 
-    @PostMapping("createUserAndAuthenticate")
+    @PostMapping("/createUserAndAuthenticate")
     public TokensDTO createUserAutneticate(@RequestBody @Valid UserCreateDTO userDTO) {
         return authService.createUsersAndAuthenticate(userMapper.toEntity(userDTO));
     }

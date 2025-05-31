@@ -1,6 +1,7 @@
 package com.github.caioorleans.familytodo.mapper.impl;
 
 import com.github.caioorleans.familytodo.dto.UserCreateDTO;
+import com.github.caioorleans.familytodo.dto.UserDTO;
 import com.github.caioorleans.familytodo.mapper.UserMapper;
 import com.github.caioorleans.familytodo.model.User;
 import org.modelmapper.ModelMapper;
@@ -18,5 +19,10 @@ public class UserMapperModelMapper implements UserMapper {
     @Override
     public User toEntity(UserCreateDTO dto) {
         return modelMapper.map(dto, User.class);
+    }
+
+    @Override
+    public UserDTO toDTO(User model) {
+        return modelMapper.map(model, UserDTO.class);
     }
 }

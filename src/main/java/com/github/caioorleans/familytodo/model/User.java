@@ -32,6 +32,12 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 60)
     private String password;
 
+    @ManyToMany(mappedBy = "members")
+    private List<ShoppingList> sharedLists;
+
+    @OneToMany(mappedBy = "owner")
+    private List<ShoppingList> ownedLists;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
