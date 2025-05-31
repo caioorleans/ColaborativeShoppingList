@@ -1,13 +1,11 @@
 package com.github.caioorleans.familytodo.controller;
 
+import com.github.caioorleans.familytodo.dto.ShoppingListCompleteDTO;
 import com.github.caioorleans.familytodo.dto.ShoppingListCreateDTO;
 import com.github.caioorleans.familytodo.dto.ShoppingListPartialDTO;
 import com.github.caioorleans.familytodo.mapper.ShoppingListMapper;
 import com.github.caioorleans.familytodo.service.ShoppingListService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,8 +27,28 @@ public class ShoppingListController {
         return shoppingListMapper.toPartialDTO(shoppingList);
     }
 
+    @GetMapping("/{id}")
+    ShoppingListCompleteDTO findShoppingListById(@PathVariable String id) {
+        var shoppingList = shoppingListService.getIfAuthorizedUserIsAMember(id);
+        return shoppingListMapper.toCompleteDTO(shoppingList);
+    }
+
     @GetMapping("/findAllByLoggedUser")
     List<ShoppingListPartialDTO> findAllByLoggedUser() {
         return shoppingListService.findAllByLoggedUser().stream().map(shoppingListMapper::toPartialDTO).toList();
+    }
+
+    @PatchMapping("/{id}")
+    ShoppingListCompleteDTO updateName(
+            @PathVariable String id,
+            @RequestBody ShoppingListCreateDTO shoppingListCreateDTO
+    ) {
+        var updatedList = shoppingListService.updateShoppingListName(id, shoppingListCreateDTO);
+        return shoppingListMapper.toCompleteDTO(updatedList);
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteShoppingList(@PathVariable String id) {
+        shoppingListService.deleteById(id);
     }
 }

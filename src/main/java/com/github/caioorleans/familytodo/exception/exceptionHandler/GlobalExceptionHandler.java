@@ -1,6 +1,7 @@
 package com.github.caioorleans.familytodo.exception.exceptionHandler;
 
 import com.github.caioorleans.familytodo.exception.EmailAlreadyInUseException;
+import com.github.caioorleans.familytodo.exception.ForbiddenException;
 import com.github.caioorleans.familytodo.exception.NotFoundException;
 import com.github.caioorleans.familytodo.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
@@ -39,13 +40,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             NotFoundException.class,
             UnauthorizedException.class,
-            EmailAlreadyInUseException.class
+            EmailAlreadyInUseException.class,
+            ForbiddenException.class
     })
     public ResponseEntity<Map<String, Object>> handleCustomExceptions(RuntimeException ex) {
         HttpStatus status = switch (ex) {
-            case NotFoundException notFoundException -> HttpStatus.NOT_FOUND;
-            case UnauthorizedException unauthorizedException -> HttpStatus.UNAUTHORIZED;
-            case EmailAlreadyInUseException emailAlreadyInUseException -> HttpStatus.CONFLICT;
+            case NotFoundException ignored -> HttpStatus.NOT_FOUND;
+            case UnauthorizedException ignored -> HttpStatus.UNAUTHORIZED;
+            case EmailAlreadyInUseException ignored -> HttpStatus.CONFLICT;
+            case ForbiddenException ignored -> HttpStatus.FORBIDDEN;
             default -> throw new IllegalStateException("Unexpected value: " + ex);
         };
 
