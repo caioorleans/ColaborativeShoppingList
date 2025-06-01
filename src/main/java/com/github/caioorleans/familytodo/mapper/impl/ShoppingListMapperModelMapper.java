@@ -30,6 +30,7 @@ public class ShoppingListMapperModelMapper implements ShoppingListMapper {
         shoppingList.setOwner(user);
         shoppingList.setCreationDate(new Date());
         shoppingList.setMembers(Collections.singletonList(user));
+        shoppingList.setItems(Collections.emptyList());
 
         return shoppingList;
     }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,4 +40,7 @@ public class ShoppingList {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> members;
+
+    @OneToMany(mappedBy = "shoppingList", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShoppingListItem> items = new ArrayList<>();
 }

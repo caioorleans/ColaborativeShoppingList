@@ -12,4 +12,5 @@ import java.util.List;
 public class ShoppingListCompleteDTO extends ShoppingListPartialDTO{
 
     private List<UserDTO> members;
+    private List<ShoppingListItemDTO> items;
 }
