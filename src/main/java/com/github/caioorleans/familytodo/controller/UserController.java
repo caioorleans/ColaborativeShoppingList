@@ -24,10 +24,4 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping
-    public String teste(){
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        return "Logged in as: " + username;
-    }
 }

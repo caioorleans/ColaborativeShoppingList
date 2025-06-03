@@ -5,6 +5,7 @@ import com.github.caioorleans.familytodo.dto.ShoppingListCreateDTO;
 import com.github.caioorleans.familytodo.dto.ShoppingListPartialDTO;
 import com.github.caioorleans.familytodo.mapper.ShoppingListMapper;
 import com.github.caioorleans.familytodo.service.ShoppingListService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class ShoppingListController {
     }
 
     @PostMapping
-    ShoppingListPartialDTO createShoppingList(ShoppingListCreateDTO shoppingListCreateDTO) {
+    ShoppingListPartialDTO createShoppingList(@RequestBody @Valid ShoppingListCreateDTO shoppingListCreateDTO) {
         var shoppingList = shoppingListService.create(shoppingListMapper.toEntity(shoppingListCreateDTO));
         return shoppingListMapper.toPartialDTO(shoppingList);
     }
@@ -41,7 +42,7 @@ public class ShoppingListController {
     @PatchMapping("/{id}")
     ShoppingListCompleteDTO updateName(
             @PathVariable String id,
-            @RequestBody ShoppingListCreateDTO shoppingListCreateDTO
+            @RequestBody @Valid ShoppingListCreateDTO shoppingListCreateDTO
     ) {
         var updatedList = shoppingListService.updateShoppingListName(id, shoppingListCreateDTO);
         return shoppingListMapper.toCompleteDTO(updatedList);

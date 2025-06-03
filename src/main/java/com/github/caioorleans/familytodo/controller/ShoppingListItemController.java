@@ -4,6 +4,7 @@ import com.github.caioorleans.familytodo.dto.ShoppingListItemCreateDTO;
 import com.github.caioorleans.familytodo.dto.ShoppingListItemDTO;
 import com.github.caioorleans.familytodo.mapper.ShoppingListItemMapper;
 import com.github.caioorleans.familytodo.service.ShoppingListItemService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +25,7 @@ public class ShoppingListItemController {
     @PostMapping("/{listId}")
     public ShoppingListItemDTO create(
             @PathVariable String listId,
-            @RequestBody ShoppingListItemCreateDTO item
+            @RequestBody @Valid ShoppingListItemCreateDTO item
     ) {
         var createdItem = this.shoppingListItemService.create(listId, shoppingListItemMapper.toEntity(item));
         return shoppingListItemMapper.toDto(createdItem);
