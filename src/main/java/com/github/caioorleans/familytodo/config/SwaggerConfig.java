@@ -12,7 +12,13 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Minha API").version("v1"))
+                .info(
+                        new Info()
+                                .title("Lista de Compras Colaborativa")
+                                .description("Lista de compras colaborativa, no qual o usuário pode criar uma lista, " +
+                                        "adicionar usuários pra contribuir com a lista e criar itens.")
+                                .version("v1")
+                )
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new io.swagger.v3.oas.models.Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
