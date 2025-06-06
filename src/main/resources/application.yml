@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: Lista de Compras Colaborativa
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+security:
+  public-paths:
+    - /api/auth/**
+    - /v3/api-docs/**
+    - /swagger-ui/**
+    - /swagger-ui.html
+

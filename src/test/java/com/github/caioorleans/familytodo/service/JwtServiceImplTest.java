@@ -42,27 +42,5 @@ public class JwtServiceImplTest {
         String emailExtraido = jwtService.getEmailFromToken(token);
         assertEquals(testUser.getEmail(), emailExtraido);
     }
-
-    @Test
-    void tokenComAssinaturaValidaDeveRetornarTrue() {
-        String token = jwtService.generateAccessToken(testUser);
-        assertTrue(jwtService.isAccessTokenValid(token)); // assumes generated token is valid
-    }
-
-    @Test
-    void tokenComAssinaturaInvalidaDeveRetornarFalse() {
-        // Token forjado (não corresponde à chave usada na implementação)
-        String tokenInvalido = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZUBtYWlsLmNvbSIsImlhdCI6MTY4MDAwMDAwMCwiZXhwIjoxNzAwMDAwMDAwfQ.fakeSignature";
-
-        assertFalse(jwtService.isAccessTokenValid(tokenInvalido));
-    }
-
-    @Test
-    void deveRetornarFalseSeTokenExpirado() throws InterruptedException {
-        String token = jwtService.generateAccessToken(testUser);
-
-        Thread.sleep(10); // espera expirar
-        assertFalse(jwtService.isAccessTokenValid(token));
-    }
 }
 

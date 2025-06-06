@@ -1,5 +1,6 @@
 package com.github.caioorleans.familytodo.service.impl;
 
+import com.github.caioorleans.familytodo.exception.UnauthorizedException;
 import com.github.caioorleans.familytodo.model.User;
 import com.github.caioorleans.familytodo.repository.UserRepository;
 import com.github.caioorleans.familytodo.service.JwtService;
@@ -45,21 +46,20 @@ public class JwtServiceImpl implements JwtService, UserDetailsService {
     }
 
     @Override
-    public boolean isAccessTokenValid(String token) {
-        return isTokenValid(token, ACCESS_TOKEN_SECRET_KEY);
+    public Claims extractAccessToken(String token) {
+        try{
+            return extractClaims(token, ACCESS_TOKEN_SECRET_KEY);
+        }catch (JwtException e){
+            throw new UnauthorizedException("Invalid token");
+        }
     }
 
     @Override
-    public boolean isRefreshTokenValid(String token) {
-        return isTokenValid(token, REFRESH_TOKEN_SECRET_KEY);
-    }
-
-    private boolean isTokenValid(String token, String key) {
-        try {
-            Claims claims = extractClaims(token, key);
-            return new Date().before(claims.getExpiration());
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
+    public Claims extractRefreshToken(String token) {
+        try{
+            return extractClaims(token, REFRESH_TOKEN_SECRET_KEY);
+        }catch (JwtException e){
+            throw new UnauthorizedException("Invalid token");
         }
     }
 

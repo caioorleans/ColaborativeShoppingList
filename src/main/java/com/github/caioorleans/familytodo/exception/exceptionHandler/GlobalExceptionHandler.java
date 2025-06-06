@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
             NotFoundException.class,
             UnauthorizedException.class,
             EmailAlreadyInUseException.class,
-            ForbiddenException.class
+            ForbiddenException.class,
     })
     public ResponseEntity<Map<String, Object>> handleCustomExceptions(RuntimeException ex) {
         HttpStatus status = switch (ex) {

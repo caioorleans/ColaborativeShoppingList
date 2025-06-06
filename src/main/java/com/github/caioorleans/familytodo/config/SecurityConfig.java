@@ -1,5 +1,6 @@
 package com.github.caioorleans.familytodo.config;
 
+import com.github.caioorleans.familytodo.security.SecurityProperties;
 import com.github.caioorleans.familytodo.security.filter.JwtAuthFilter;
 import com.github.caioorleans.familytodo.service.JwtService;
 import org.springframework.context.annotation.Bean;
@@ -18,15 +19,17 @@ public class SecurityConfig {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final SecurityProperties securityProperties;
 
-    public SecurityConfig(JwtService jwtService, UserDetailsService userDetailsService) {
+    public SecurityConfig(JwtService jwtService, UserDetailsService userDetailsService, SecurityProperties securityProperties) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.securityProperties = securityProperties;
     }
 
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
-        return new JwtAuthFilter(jwtService, userDetailsService);
+        return new JwtAuthFilter(jwtService, userDetailsService, securityProperties);
     }
 
     @Bean
@@ -41,11 +44,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/v3/api-docs/**",
-                                "swagger-ui/**",
-                                "swagger-ui.html",
-                                "api/auth",
-                                "api/auth/**"
+                                securityProperties.getPublicPaths().toArray(new String[0])
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
