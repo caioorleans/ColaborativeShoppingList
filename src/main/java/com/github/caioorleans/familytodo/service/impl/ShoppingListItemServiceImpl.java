@@ -37,9 +37,11 @@ public class ShoppingListItemServiceImpl implements ShoppingListItemService {
         var membersMap = shoppingList.getMembers().stream()
                 .collect(Collectors.toMap(User::getEmail, Function.identity()));
         var user = membersMap.get(authenticatedUserProvider.getEmail());
+
         item.setCreator(user);
         item.setCreationDate(new Date());
         item.setShoppingList(shoppingList);
+
         return shoppingListItemRepository.save(item);
     }
 
