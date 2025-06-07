@@ -6,6 +6,8 @@ import com.github.caioorleans.familytodo.dto.ShoppingListPartialDTO;
 import com.github.caioorleans.familytodo.mapper.ShoppingListMapper;
 import com.github.caioorleans.familytodo.service.ShoppingListService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,33 +25,36 @@ public class ShoppingListController {
     }
 
     @PostMapping
-    ShoppingListPartialDTO createShoppingList(@RequestBody @Valid ShoppingListCreateDTO shoppingListCreateDTO) {
+    ResponseEntity<ShoppingListPartialDTO> createShoppingList(@RequestBody @Valid ShoppingListCreateDTO shoppingListCreateDTO) {
         var shoppingList = shoppingListService.create(shoppingListMapper.toEntity(shoppingListCreateDTO));
-        return shoppingListMapper.toPartialDTO(shoppingList);
+        var dto =  shoppingListMapper.toPartialDTO(shoppingList);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
     @GetMapping("/{id}")
-    ShoppingListCompleteDTO findShoppingListById(@PathVariable String id) {
+    ResponseEntity<ShoppingListCompleteDTO> findShoppingListById(@PathVariable String id) {
         var shoppingList = shoppingListService.getIfAuthorizedUserIsAMember(id);
-        return shoppingListMapper.toCompleteDTO(shoppingList);
+        return ResponseEntity.ok(shoppingListMapper.toCompleteDTO(shoppingList));
     }
 
     @GetMapping("/findAllByLoggedUser")
-    List<ShoppingListPartialDTO> findAllByLoggedUser() {
-        return shoppingListService.findAllByLoggedUser().stream().map(shoppingListMapper::toPartialDTO).toList();
+    ResponseEntity<List<ShoppingListPartialDTO>> findAllByLoggedUser() {
+        var dto = shoppingListService.findAllByLoggedUser().stream().map(shoppingListMapper::toPartialDTO).toList();
+        return ResponseEntity.ok(dto);
     }
 
     @PatchMapping("/{id}")
-    ShoppingListCompleteDTO updateName(
+    ResponseEntity<ShoppingListCompleteDTO> updateName(
             @PathVariable String id,
             @RequestBody @Valid ShoppingListCreateDTO shoppingListCreateDTO
     ) {
         var updatedList = shoppingListService.updateShoppingListName(id, shoppingListCreateDTO);
-        return shoppingListMapper.toCompleteDTO(updatedList);
+        return ResponseEntity.ok(shoppingListMapper.toCompleteDTO(updatedList));
     }
 
     @DeleteMapping("/{id}")
-    void deleteShoppingList(@PathVariable String id) {
+    ResponseEntity<Object> deleteShoppingList(@PathVariable String id) {
         shoppingListService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

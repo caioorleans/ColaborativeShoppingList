@@ -6,6 +6,8 @@ import com.github.caioorleans.familytodo.dto.UserCreateDTO;
 import com.github.caioorleans.familytodo.mapper.UserMapper;
 import com.github.caioorleans.familytodo.service.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +26,14 @@ public class AuthController {
     }
 
     @PostMapping
-    public TokensDTO login(@RequestBody @Valid LoginDTO loginDto) {
-        return authService.login(loginDto);
+    public ResponseEntity<TokensDTO> login(@RequestBody @Valid LoginDTO loginDto) {
+        var tokensDto = authService.login(loginDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(tokensDto);
     }
 
     @PostMapping("/createUserAndAuthenticate")
-    public TokensDTO createUserAutneticate(@RequestBody @Valid UserCreateDTO userDTO) {
-        return authService.createUsersAndAuthenticate(userMapper.toEntity(userDTO));
+    public ResponseEntity<TokensDTO> createUserAutneticate(@RequestBody @Valid UserCreateDTO userDTO) {
+        var tokens = authService.createUsersAndAuthenticate(userMapper.toEntity(userDTO));
+        return ResponseEntity.ok(tokens);
     }
 }
