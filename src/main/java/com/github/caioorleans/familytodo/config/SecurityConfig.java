@@ -3,6 +3,7 @@ package com.github.caioorleans.familytodo.config;
 import com.github.caioorleans.familytodo.security.SecurityProperties;
 import com.github.caioorleans.familytodo.security.filter.JwtAuthFilter;
 import com.github.caioorleans.familytodo.service.JwtService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +22,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final SecurityProperties securityProperties;
 
+    @Autowired
     public SecurityConfig(JwtService jwtService, UserDetailsService userDetailsService, SecurityProperties securityProperties) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;

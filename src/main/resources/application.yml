@@ -18,4 +18,8 @@ security:
     - /v3/api-docs/**
     - /swagger-ui/**
     - /swagger-ui.html
+  access-token-key: mysuperhypermegaultrablasteraccesstokensecretkey
+  refresh-token-key: mysuperhypermegaultrablasterrefreshtokensecretkey
+  access-token-expiration-time: 3600
+  refresh-token-expiration-time: 86400
 

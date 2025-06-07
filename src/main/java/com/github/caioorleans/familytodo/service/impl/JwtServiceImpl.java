@@ -8,6 +8,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,11 +19,17 @@ import java.util.Date;
 @Component
 public class JwtServiceImpl implements JwtService, UserDetailsService {
 
-    private static final String ACCESS_TOKEN_SECRET_KEY = "minha-chave-acesso-secreta-com-32-bytes!!!";
-    private static final long ACCESS_TOKEN_EXPIRATION_TIME = 3600L;
+    @Value("${security.access-token-key}")
+    private String ACCESS_TOKEN_SECRET_KEY;
 
-    private static final String REFRESH_TOKEN_SECRET_KEY = "minha-chave-refresh-secreta-com-32-bytes!!!";
-    private static final long REFRESH_TOKEN_EXPIRATION_TIME = 3600L;
+    @Value("${security.access-token-expiration-time}")
+    private long ACCESS_TOKEN_EXPIRATION_TIME;
+
+    @Value("${security.refresh-token-key}")
+    private String REFRESH_TOKEN_SECRET_KEY;
+
+    @Value("${security.refresh-token-expiration-time}")
+    private long REFRESH_TOKEN_EXPIRATION_TIME;
 
     private final UserRepository userRepository;
 
