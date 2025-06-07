@@ -9,6 +9,8 @@ Este projeto é uma API desenvolvida com Spring que tem como objetivo permitir a
 * **Edição de lista de compras**
 * **Exclusão de lista de compras**
 * **Criação de itens em uma lista de compras**
+* **Exclusão de item de uma lista de compras**
+* **Marcar item como concluído**
 
 ## Funcionalidades Pendentes
 
@@ -16,7 +18,6 @@ Este projeto é uma API desenvolvida com Spring que tem como objetivo permitir a
 * Envio de e-mails
 * Convite para participar de uma lista de compras
 * Edição de itens da lista de compras
-* Exclusão de itens da lista de compras
 
 ## Tecnologias e Dependências Utilizadas
 
